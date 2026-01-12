@@ -4,8 +4,8 @@ SinCleaner is a lightweight Python utility with a graphical interface for basic 
 The project focuses on simplicity, predictability, and local-only processing.
 
 It is designed as a small but extensible tool rather than a full-featured image editor.
-Although this project has reached its first public release, it is still under active development and expected to receive many new features, improvements, and refinements in future versions.
 ---
+Although this project has reached its first public release, it is still under active development and expected to receive many new features, improvements, and refinements in future versions.
 
 ## Features
 
