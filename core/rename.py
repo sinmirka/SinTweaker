@@ -15,7 +15,7 @@ def resolve_name_conflict(path: Path) -> Path:
 
     while path.exists():
         path = parent / f"{stem}_{counter}{suffix}"
-        counter =+ 1
+        counter += 1
     
     return path
 
