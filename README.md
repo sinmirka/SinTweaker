@@ -6,7 +6,7 @@ The project focuses on simplicity, predictability, and local-only processing.
 It is designed as a small but extensible tool rather than a full-featured image editor.
 ---
 Although this project has reached its first public release, it is still under active development and expected to receive many new features, improvements, and refinements in future versions.
-
+A command-line interface (CLI) is planned and will be integrated after the graphical interface reaches a stable and feature-complete state.
 ## Features
 
 - File selection via GUI
