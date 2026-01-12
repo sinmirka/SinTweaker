@@ -9,8 +9,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 
 from core.rename import rename_file
-from core.meta.image import get_image_metadata, clean_image_metadata
-
+from core.meta.meta_handler import get_metadata, clear_metadata
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -43,8 +42,8 @@ class MainWindow(QMainWindow):
         self.ui.btnRenameFile.clicked.connect(self.rename_file)
 
         # Metadata tab
-        self.ui.btnClearMetadata.clicked.connect(self.choose_file)
-        self.ui.btnOpenMetadataFull.clicked.connect(self.open_metadata_full)
+        self.ui.btnClearMetadata.clicked.connect(self.clear_file_metadata)
+        # self.ui.btnOpenMetadataFull.clicked.connect(self.open_metadata_full) ill make ts work soon cuz it pmo so harddddddd
 
 
     def choose_file(self):
@@ -74,43 +73,39 @@ class MainWindow(QMainWindow):
         
         self.ui.textInfo.setPlainText("\n".join(report))
 
-    def clear_metadata(self):
+    def update_metadata_view(self):
         if not self.current_file:
-            QMessageBox.warning(self, "Error", "No file selected")
+            self.ui.textMetadata.clear()
             return
-
-        try:
-            report = clean_image_metadata(self.current_file)
-        except Exception as e:
-            QMessageBox.critical(self, "Metadata error", str(e))
-            return
-
-        self.ui.textMetadata.setPlainText("\n".join(report))
-
-    def open_metadata_full(self):
-        if not self.current_file:
-            QMessageBox.warning(self, "Error", "No file selected")
-            return
-
-        try:
-            metadata = get_image_metadata(self.current_file)
-        except Exception as e:
-            QMessageBox.critical(self, "Metadata error", str(e))
-            return
+        
+        metadata = get_metadata(self.current_file)
 
         if not metadata:
-            self.ui.textMetadata.setPlainText("No metadata found.")
+            self.ui.textMetadata.setPlainText(
+                "Metadata is not supported for this file type\n"
+                "or no metadata found."
+            )
             return
-
+    
         lines: list[str] = []
 
         for section, data in metadata.items():
-            lines.append(f"[{section}]")
-            if isinstance(data, dict):
-                for tag, value in data.items():
-                    lines.append(f"{tag}: {value}")
+            if section == "thumbnail":
+                lines.append(f"{section}: {len(data)} bytes")
             else:
-                lines.append(str(data))
-            lines.append("")
+                lines.append(f"{section}: {len(data)} tags")
 
         self.ui.textMetadata.setPlainText("\n".join(lines))
+
+    def clear_file_metadata(self):
+        if not self.current_file:
+            QMessageBox.warning(self, "Error", "No file selected, go to File tab")
+            return
+        
+        try:
+            report = clear_metadata(self.current_file)
+        except Exception as e:
+            QMessageBox.critical(self, "Clear failed", str(e))
+        
+        self.ui.textMetadata.setPlainText("\n".join(report))
+        self.update_metadata_view()

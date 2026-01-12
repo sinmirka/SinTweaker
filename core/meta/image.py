@@ -9,7 +9,7 @@ def get_image_metadata(path: Path) -> dict:
         return {}
 
     exif_bytes = image.info.get("exif")
-    if not exif_bytes:
+    if not exif_bytes:  
         return {}
     
     exif_dict = piexif.load(exif_bytes)
