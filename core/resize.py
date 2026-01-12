@@ -60,3 +60,4 @@ def resize_image(
     report.append(f"The resizing was successful. New dimensions: {new_width}, {new_height}")
     resized.save(path)
     report.append(f"The new dimensions are applied to the image")
+    return report

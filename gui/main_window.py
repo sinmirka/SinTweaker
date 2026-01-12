@@ -11,6 +11,7 @@ from PySide6.QtCore import QFile
 from core.rename import rename_file
 from core.meta.meta_handler import get_metadata, clear_metadata
 from core.info import get_file_info
+from core.resize import resize_image
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -45,6 +46,9 @@ class MainWindow(QMainWindow):
         # Metadata tab
         self.ui.btnClearMetadata.clicked.connect(self.clear_file_metadata)
         # self.ui.btnOpenMetadataFull.clicked.connect(self.open_metadata_full) ill make ts work soon cuz it pmo so harddddddd
+
+        # Resize tab
+        self.ui.btnResize.clicked.connect(self.resize_current_image)
 
 
     def choose_file(self):
@@ -133,3 +137,27 @@ class MainWindow(QMainWindow):
                 ]
 
         self.ui.textInfo.setPlainText("\n".join(lines))
+
+    def resize_current_image(self):
+        if not self.current_file:
+            QMessageBox.warning(self, "Error", "No file selected, go to File tab")
+            return
+
+        max_width = self.ui.spinWidth.value()
+        if max_width == 0:
+            max_width = None
+        max_height = self.ui.spinHeight.value()
+        if max_height == 0:
+            max_height = None
+
+        try:
+            resize_image(
+                self.current_file,
+                max_width=max_width,
+                max_height=max_height,
+                dry_run=False,
+            )
+        
+        except Exception as e:
+            QMessageBox.critical(self, "resize_current_image()", str(e))
+            return
