@@ -12,6 +12,7 @@ from core.rename import rename_file
 from core.meta.meta_handler import get_metadata, clear_metadata
 from core.info import get_file_info
 from core.resize import resize_image
+from core.convert import convert_image
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -49,6 +50,9 @@ class MainWindow(QMainWindow):
 
         # Resize tab
         self.ui.btnResize.clicked.connect(self.resize_current_image)
+
+        # Convert tab
+        self.ui.btnConvert.clicked.connect(self.convert_current_image)
 
 
     def choose_file(self):
@@ -159,5 +163,23 @@ class MainWindow(QMainWindow):
             )
         
         except Exception as e:
-            QMessageBox.critical(self, "resize_current_image()", str(e))
+            QMessageBox.critical(self, "resize_current_image() failed", str(e))
+            return
+        
+    def convert_current_image(self):
+        if not self.current_file:
+            QMessageBox.warning(self, "Error", "No file selected, go to File tab")
+            return
+        
+        to_format = str(self.ui.comboFormat.currentText()).lower()
+        
+        try:
+            convert_image(
+                self.current_file,
+                to_format=to_format,
+                dry_run=False,
+            )
+        
+        except Exception as e:
+            QMessageBox.critical(self, "convert_current_image() failed", str(e))
             return
