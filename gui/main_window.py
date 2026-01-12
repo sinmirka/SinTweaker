@@ -59,6 +59,7 @@ class MainWindow(QMainWindow):
         
         self.current_file = Path(file_path)
         self.ui.labelCurrentFile.setText(self.current_file.name)
+        self.update_metadata_view()
 
     def rename_file(self):
         if not self.current_file:
