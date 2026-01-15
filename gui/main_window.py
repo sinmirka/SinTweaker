@@ -13,6 +13,7 @@ from core.meta.meta_handler import get_metadata, clear_metadata
 from core.info import get_file_info
 from core.resize import resize_image
 from core.convert import convert_image
+from core.compress import compress_image
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -28,7 +29,7 @@ class MainWindow(QMainWindow):
     def _load_ui(self):
         loader = QUiLoader()
 
-        ui_path = Path(__file__).parent / "sincleaner.ui"
+        ui_path = Path(__file__).parent / "sincleanerV2.ui" #ui file
         ui_file = QFile(str(ui_path))
         ui_file.open(QFile.ReadOnly)
 
@@ -48,11 +49,10 @@ class MainWindow(QMainWindow):
         self.ui.btnClearMetadata.clicked.connect(self.clear_file_metadata)
         # self.ui.btnOpenMetadataFull.clicked.connect(self.open_metadata_full) ill make ts work soon cuz it pmo so harddddddd
 
-        # Resize tab
+        # Image tab
         self.ui.btnResize.clicked.connect(self.resize_current_image)
-
-        # Convert tab
         self.ui.btnConvert.clicked.connect(self.convert_current_image)
+        self.ui.btnCompress.clicked.connect(self.compress_current_image)
 
 
     def choose_file(self):
@@ -182,4 +182,26 @@ class MainWindow(QMainWindow):
         
         except Exception as e:
             QMessageBox.critical(self, "convert_current_image() failed", str(e))
+            return
+        
+    def compress_current_image(self):
+        if not self.current_file:
+            QMessageBox.warning(self, "Error", "No file selected, go to File tab")
+            return
+        
+        quality = int(self.ui.spinQuality.value())
+
+        if quality <= 0:
+            QMessageBox.warning(self, "Error", "Wrong quality input")
+            return
+        
+        try:
+            compress_image(
+                path=self.current_file,
+                quality=quality,
+                dry_run=False
+            )
+
+        except Exception as e:
+            QMessageBox.critical(self, "compress_current_image() failed", str(e))
             return
