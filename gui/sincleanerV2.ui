@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowTitle">
+   <string>SinCleaner</string>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>720</width>
+    <height>520</height>
+   </size>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout">
+
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+
+      <!-- FILE TAB -->
+      <widget class="QWidget" name="tabFile">
+       <attribute name="title"><string>File</string></attribute>
+       <layout class="QVBoxLayout">
+
+        <item>
+         <widget class="QPushButton" name="btnSelectFile">
+          <property name="minimumHeight"><number>40</number></property>
+          <property name="text"><string>Choose File</string></property>
+         </widget>
+        </item>
+
+        <!-- Image Preview -->
+        <item>
+         <widget class="QGroupBox">
+          <property name="title"><string>Image Preview</string></property>
+          <layout class="QVBoxLayout">
+           <item>
+            <widget class="QLabel" name="labelImagePreview">
+             <property name="minimumSize">
+              <size><width>200</width><height>200</height></size>
+             </property>
+             <property name="alignment"><enum>Qt::AlignCenter</enum></property>
+             <property name="text"><string>Image only</string></property>
+             <property name="styleSheet">
+              <string>
+               border: 1px dashed gray;
+               color: gray;
+              </string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QLabel">
+          <property name="text"><string>Naming style:</string></property>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QComboBox" name="comboNamingStyle">
+          <item><property name="text"><string>camelCase</string></property></item>
+          <item><property name="text"><string>snake_case</string></property></item>
+          <item><property name="text"><string>kebab-case</string></property></item>
+          <item><property name="text"><string>PascalCase</string></property></item>
+          <item><property name="text"><string>UPPER_CASE</string></property></item>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QPushButton" name="btnRenameFile">
+          <property name="minimumHeight"><number>40</number></property>
+          <property name="text"><string>Rename file</string></property>
+         </widget>
+        </item>
+
+        <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property></spacer></item>
+       </layout>
+      </widget>
+
+      <!-- INFO TAB -->
+      <widget class="QWidget" name="tabInfo">
+       <attribute name="title"><string>Info</string></attribute>
+       <layout class="QVBoxLayout">
+        <item>
+         <widget class="QTextEdit" name="textInfo">
+          <property name="readOnly"><bool>true</bool></property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- IMAGE TAB -->
+      <widget class="QWidget" name="tabImage">
+       <attribute name="title"><string>Image</string></attribute>
+       <layout class="QVBoxLayout">
+
+        <item>
+         <widget class="QGroupBox">
+          <property name="title"><string>Resize</string></property>
+          <layout class="QFormLayout">
+           <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Width:</string></property></widget></item>
+           <item row="0" column="1"><widget class="QSpinBox" name="spinWidth"><property name="maximum"><number>99999</number></property></widget></item>
+           <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Height:</string></property></widget></item>
+           <item row="1" column="1"><widget class="QSpinBox" name="spinHeight"><property name="maximum"><number>99999</number></property></widget></item>
+           <item row="2" column="1"><widget class="QPushButton" name="btnResize"><property name="text"><string>Resize</string></property></widget></item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QGroupBox">
+          <property name="title"><string>Convert</string></property>
+          <layout class="QVBoxLayout">
+           <item><widget class="QComboBox" name="comboFormat">
+            <item><property name="text"><string>PNG</string></property></item>
+            <item><property name="text"><string>JPG</string></property></item>
+            <item><property name="text"><string>WEBP</string></property></item>
+           </widget></item>
+           <item><widget class="QPushButton" name="btnConvert"><property name="text"><string>Convert</string></property></widget></item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QGroupBox">
+          <property name="title"><string>Compression</string></property>
+          <layout class="QFormLayout">
+           <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Quality:</string></property></widget></item>
+           <item row="0" column="1"><widget class="QSpinBox" name="spinQuality">
+             <property name="minimum"><number>1</number></property>
+             <property name="maximum"><number>100</number></property>
+             <property name="value"><number>85</number></property>
+           </widget></item>
+           <item row="1" column="1"><widget class="QPushButton" name="btnCompress"><property name="text"><string>Compress Image</string></property></widget></item>
+          </layout>
+         </widget>
+        </item>
+
+       </layout>
+      </widget>
+
+      <!-- METADATA TAB -->
+      <widget class="QWidget" name="tabMetadata">
+       <attribute name="title"><string>Metadata</string></attribute>
+       <layout class="QVBoxLayout">
+        <item>
+         <widget class="QTextEdit" name="textMetadata">
+          <property name="readOnly"><bool>true</bool></property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout">
+          <item><widget class="QPushButton" name="btnClearMetadata"><property name="text"><string>Clear metadata</string></property></widget></item>
+          <item><widget class="QPushButton" name="btnViewMetadataFull"><property name="text"><string>View full metadata</string></property></widget></item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- LOGS TAB -->
+      <widget class="QWidget" name="tabLogs">
+       <attribute name="title"><string>Logs</string></attribute>
+       <layout class="QVBoxLayout">
+        <item>
+         <widget class="QTextEdit" name="textLogs">
+          <property name="readOnly"><bool>true</bool></property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout">
+          <item><widget class="QPushButton" name="btnOpenLogs"><property name="text"><string>Open log folder</string></property></widget></item>
+          <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property></spacer></item>
+          <item><widget class="QPushButton" name="btnClearLogs"><property name="text"><string>Clear logs</string></property></widget></item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- SETTINGS TAB -->
+      <widget class="QWidget" name="tabSettings">
+       <attribute name="title"><string>Settings</string></attribute>
+       <layout class="QVBoxLayout">
+        <item><widget class="QCheckBox" name="checkDryRun"><property name="text"><string>Dry run mode</string></property></widget></item>
+        <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property></spacer></item>
+       </layout>
+      </widget>
+
+     </widget>
+    </item>
+
+    <item>
+     <widget class="QLabel" name="labelCurrentFile">
+      <property name="text"><string>No file selected</string></property>
+      <property name="styleSheet"><string>color: gray; padding: 6px;</string></property>
+     </widget>
+    </item>
+
+   </layout>
+  </widget>
+ </widget>
+
+ <resources/>
+ <connections/>
+</ui>
