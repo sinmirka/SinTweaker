@@ -14,6 +14,7 @@ from core.info import get_file_info
 from core.resize import resize_image
 from core.convert import convert_image
 from core.compress import compress_image
+from core.aspect_ratio import change_image_aspect_ratio
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -53,6 +54,7 @@ class MainWindow(QMainWindow):
         self.ui.btnResize.clicked.connect(self.resize_current_image)
         self.ui.btnConvert.clicked.connect(self.convert_current_image)
         self.ui.btnCompress.clicked.connect(self.compress_current_image)
+        self.ui.btnChangeAspectRatio.clicked.connect(self.change_current_image_aspect_ratio)
 
 
     def choose_file(self):
@@ -204,4 +206,26 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             QMessageBox.critical(self, "compress_current_image() failed", str(e))
+            return
+    
+    def change_current_image_aspect_ratio(self):
+        if not self.current_file:
+            QMessageBox.warning(self, "Error", "No file selected, go to File tab")
+            return
+        
+        text = self.ui.comboAspectRatio.currentText()
+
+        if ":" in text:
+            ratio_w, ratio_h = map(int, text.split(":"))
+        else:
+            return
+        
+        try:
+            change_image_aspect_ratio(
+                path=self.current_file,
+                ratio_w=ratio_w,
+                ratio_h=ratio_h,
+            )
+        except Exception as e:
+            QMessageBox.critical(self, "change_current_image_aspect_ratio() failed", str(e))
             return
