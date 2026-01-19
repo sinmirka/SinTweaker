@@ -240,7 +240,7 @@ class MainWindow(QMainWindow):
             return
         
 
-        # UI elements states
+        # UI elements states and utils
 
     def _on_aspect_ratio_changed(self):
         combo = self.ui.comboAspectRatio
@@ -254,3 +254,7 @@ class MainWindow(QMainWindow):
             self.ui.spinAspectW.setVisible(False)
             self.ui.spinAspectH.setVisible(False)
             self.ui.labelAspectColon.setVisible(False)
+
+    def _last_action_text(self, text):
+        lat = self.ui.labelLastAcion
+        lat.setText(text)
