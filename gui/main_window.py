@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
 
         self.setFixedSize(self.size())
     
-    def _load_ui(self):
+    def _load_ui(self): # Base loading
         loader = QUiLoader()
 
         ui_path = Path(__file__).parent / "sincleanerV2.ui" #ui file
@@ -41,7 +41,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.ui.windowTitle())
 
 
-    def _connect_signals(self):
+    def _connect_signals(self): # Signals from UI to connect with logic
+        # UI states
+        self.ui.comboAspectRatio.currentTextChanged.connect(self._on_aspect_ratio_changed)
+
         # File tab
         self.ui.btnSelectFile.clicked.connect(self.choose_file)
         self.ui.btnRenameFile.clicked.connect(self.rename_file)
@@ -55,6 +58,9 @@ class MainWindow(QMainWindow):
         self.ui.btnConvert.clicked.connect(self.convert_current_image)
         self.ui.btnCompress.clicked.connect(self.compress_current_image)
         self.ui.btnChangeAspectRatio.clicked.connect(self.change_current_image_aspect_ratio)
+
+
+    # GUI logic down there
 
 
     def choose_file(self):
@@ -217,6 +223,9 @@ class MainWindow(QMainWindow):
 
         if ":" in text:
             ratio_w, ratio_h = map(int, text.split(":"))
+        elif text == "Custom":
+            ratio_w = self.ui.spinAspectW.value()
+            ratio_h = self.ui.spinAspectH.value()
         else:
             return
         
@@ -229,3 +238,19 @@ class MainWindow(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "change_current_image_aspect_ratio() failed", str(e))
             return
+        
+
+        # UI elements states
+
+    def _on_aspect_ratio_changed(self):
+        combo = self.ui.comboAspectRatio
+        if combo.currentText() == "Custom":
+            self.ui.labelAspectCustom.setVisible(True)
+            self.ui.spinAspectW.setVisible(True)
+            self.ui.spinAspectH.setVisible(True)
+            self.ui.labelAspectColon.setVisible(True)
+        else:
+            self.ui.labelAspectCustom.setVisible(False)
+            self.ui.spinAspectW.setVisible(False)
+            self.ui.spinAspectH.setVisible(False)
+            self.ui.labelAspectColon.setVisible(False)
