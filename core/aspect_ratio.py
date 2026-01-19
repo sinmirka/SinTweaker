@@ -24,7 +24,7 @@ def define_new_size(
         new_width = src_width
         return new_width, new_height
     else:
-        return
+        return src_width, src_height
 
 def change_image_aspect_ratio(
         path: Path,
