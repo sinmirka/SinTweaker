@@ -19,7 +19,7 @@ A command-line interface (CLI) is planned and will be integrated after the graph
 
 ---
 
-## Requirements
+## Requirements (requirements.txt implemented)
 
 - Python 3.10 or newer
 - Pillow
