@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tabFile">
        <attribute name="title">
@@ -164,7 +164,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-35</y>
+             <y>0</y>
              <width>666</width>
              <height>454</height>
             </rect>
@@ -489,6 +489,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Dry run is not working for now.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer>
           <property name="orientation">
            <enum>Qt::Orientation::Vertical</enum>
@@ -532,7 +539,7 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string>color: gray; padding: 6px;</string>
+         <string notr="true">color: grey; padding: 6px;</string>
         </property>
         <property name="text">
          <string>No last actions</string>
