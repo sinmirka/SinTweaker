@@ -40,6 +40,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.ui.centralWidget())
         self.setWindowTitle(self.ui.windowTitle())
 
+        self.ui.textInfo.setPlainText("No file selected")
+
 
     def _connect_signals(self): # Signals from UI to connect with logic
         # UI states
