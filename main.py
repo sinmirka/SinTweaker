@@ -1,7 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication
 from gui.main_window import MainWindow
-
+from pathlib import Path
 
 def main():
     app = QApplication(sys.argv)

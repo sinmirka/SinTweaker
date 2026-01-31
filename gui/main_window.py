@@ -7,6 +7,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
+from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
 
 from core.rename import rename_file
 from core.meta.meta_handler import get_metadata, clear_metadata
@@ -80,6 +82,8 @@ class MainWindow(QMainWindow):
         self.ui.labelCurrentFile.setText(file_path)
         self.update_metadata_view()
         self.show_file_info()
+        self._update_image_preview()
+        self._lat_log(f"Chose file: {self.current_file.name}")
 
     def rename_file(self):
         if not self.current_file:
@@ -88,6 +92,7 @@ class MainWindow(QMainWindow):
         
         try:
             report = rename_file(self.current_file)
+            self._lat_log(f"Renamed file to {self.current_file.name}")
         except Exception as e:
             QMessageBox.critical(self, "Rename failed", str(e))
             return
@@ -125,6 +130,7 @@ class MainWindow(QMainWindow):
         
         try:
             report = clear_metadata(self.current_file)
+            self._lat_log(f"Cleared metadata for {self.current_file.name}")
         except Exception as e:
             QMessageBox.critical(self, "Clear failed", str(e))
         
@@ -171,6 +177,8 @@ class MainWindow(QMainWindow):
                 max_height=max_height,
                 dry_run=False,
             )
+            self._lat_log(f"Resized {self.current_file.name}")
+            self._update_image_preview(self)
         
         except Exception as e:
             QMessageBox.critical(self, "resize_current_image() failed", str(e))
@@ -189,6 +197,8 @@ class MainWindow(QMainWindow):
                 to_format=to_format,
                 dry_run=False,
             )
+            self._lat_log(f"Convert {self.current_file.name} to {to_format}")
+            self._update_image_preview(self)
         
         except Exception as e:
             QMessageBox.critical(self, "convert_current_image() failed", str(e))
@@ -211,6 +221,8 @@ class MainWindow(QMainWindow):
                 quality=quality,
                 dry_run=False
             )
+            self._lat_log(f"Compressed {self.current_file.name}")
+            self._update_image_preview(self)
 
         except Exception as e:
             QMessageBox.critical(self, "compress_current_image() failed", str(e))
@@ -237,12 +249,14 @@ class MainWindow(QMainWindow):
                 ratio_w=ratio_w,
                 ratio_h=ratio_h,
             )
+            self._lat_log(f"Changed aspect ratio for {self.current_file.name}")
+            self._update_image_preview(self)
         except Exception as e:
             QMessageBox.critical(self, "change_current_image_aspect_ratio() failed", str(e))
             return
         
 
-        # UI elements states and utils
+        # UI elements states, updates and other utils
 
     def _on_aspect_ratio_changed(self):
         combo = self.ui.comboAspectRatio
@@ -257,6 +271,30 @@ class MainWindow(QMainWindow):
             self.ui.spinAspectH.setVisible(False)
             self.ui.labelAspectColon.setVisible(False)
 
-    def _last_action_text(self, text):
-        lat = self.ui.labelLastAcion
+    def _lat_log(self, text):
+        # lat = last action text
+        lat = self.ui.labelLastAction
         lat.setText(text)
+    
+    def _update_image_preview(self, *_):
+        if not self.current_file:
+            self.ui.labelImagePreview.setText("Image only")
+            return
+        
+        if self.current_file.suffix.lower() not in {'.jpg', ".jpeg", ".png", ".webp"}:
+            self.ui.labelImagePreview.setText("Image only")
+            return
+        
+        pixmap = QPixmap(str(self.current_file))
+
+        if pixmap.isNull():
+            self.ui.labelImagePreview.setText("Failed to load image")
+            return
+        
+        scaled_pixmap = pixmap.scaled(
+            self.ui.labelImagePreview.size(),
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation
+        )
+
+        self.ui.labelImagePreview.setPixmap(scaled_pixmap)
