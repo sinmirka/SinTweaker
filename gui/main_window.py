@@ -47,6 +47,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.ui.windowTitle())
 
         self.ui.textInfo.setPlainText("No file selected")
+        self.log("UI loaded successfully")
 
 
     def _connect_signals(self): # Signals from UI to connect with logic
@@ -66,6 +67,7 @@ class MainWindow(QMainWindow):
         self.ui.btnConvert.clicked.connect(self.convert_current_image)
         self.ui.btnCompress.clicked.connect(self.compress_current_image)
         self.ui.btnChangeAspectRatio.clicked.connect(self.change_current_image_aspect_ratio)
+        self.log("UI signals connected")
 
 
     # GUI logic down there
@@ -94,12 +96,15 @@ class MainWindow(QMainWindow):
         if not self.current_file:
             QMessageBox.warning(self, "Error", "No file selected")
             return
+        src_name = self.current_file.name
         
         try:
             report = rename_file(self.current_file)
             self._lat_log(f"Renamed file to {self.current_file.name}")
+            self.log(f"Renamed {src_name} to {self.current_file.name}")
         except Exception as e:
             QMessageBox.critical(self, "Rename failed", str(e))
+            self.log(f"Rename failed: {str(e)}")
             return
         
         self.ui.textInfo.setPlainText("\n".join(report))
@@ -107,6 +112,7 @@ class MainWindow(QMainWindow):
     def update_metadata_view(self):
         if not self.current_file:
             self.ui.textMetadata.clear()
+            self.log("update_metadata_view called with no selected file")
             return
         
         metadata = get_metadata(self.current_file)
@@ -116,6 +122,7 @@ class MainWindow(QMainWindow):
                 "Metadata is not supported for this file type\n"
                 "or no metadata found."
             )
+            self.log(f"No metadata found for {self.current_file.name}")
             return
     
         lines: list[str] = []
@@ -127,6 +134,7 @@ class MainWindow(QMainWindow):
                 lines.append(f"{section}: {len(data)} tags")
 
         self.ui.textMetadata.setPlainText("\n".join(lines))
+        self.log(f"Metadata loaded for {self.current_file.name}")
 
     def clear_file_metadata(self):
         if not self.current_file:
@@ -136,6 +144,7 @@ class MainWindow(QMainWindow):
         try:
             report = clear_metadata(self.current_file)
             self._lat_log(f"Cleared metadata for {self.current_file.name}")
+            self.log(f"Cleared metadata for {self.current_file.name}")
         except Exception as e:
             QMessageBox.critical(self, "Clear failed", str(e))
         
@@ -145,6 +154,7 @@ class MainWindow(QMainWindow):
     def show_file_info(self):
         if not self.current_file:
             self.ui.textInfo.setPlainText("No file selected or file info is unavailable.")
+            self.log("show_file_info called with no selected file")
             return
         
         try:
@@ -162,6 +172,7 @@ class MainWindow(QMainWindow):
                 ]
 
         self.ui.textInfo.setPlainText("\n".join(lines))
+        self.log(f"File info loaded for {self.current_file.name}")
 
     def resize_current_image(self):
         if not self.current_file:
@@ -183,6 +194,10 @@ class MainWindow(QMainWindow):
                 dry_run=False,
             )
             self._lat_log(f"Resized {self.current_file.name}")
+            self.log(
+                f"Resized image {self.current_file.name} "
+                f"(max_width={max_width}, max_height={max_height})"
+            )
             self._update_image_preview(self)
         
         except Exception as e:
@@ -203,6 +218,7 @@ class MainWindow(QMainWindow):
                 dry_run=False,
             )
             self._lat_log(f"Convert {self.current_file.name} to {to_format}")
+            self.log(f"Converted {self.current_file.name} to format {to_format}")
             self._update_image_preview(self)
         
         except Exception as e:
@@ -227,6 +243,7 @@ class MainWindow(QMainWindow):
                 dry_run=False
             )
             self._lat_log(f"Compressed {self.current_file.name}")
+            self.log(f"Compressed {self.current_file.name} with quality={quality}")
             self._update_image_preview(self)
 
         except Exception as e:
@@ -253,6 +270,10 @@ class MainWindow(QMainWindow):
                 path=self.current_file,
                 ratio_w=ratio_w,
                 ratio_h=ratio_h,
+            )
+            self.log(
+                f"Changed aspect ratio for {self.current_file.name} "
+                f"to {ratio_w}:{ratio_h}"
             )
             self._lat_log(f"Changed aspect ratio for {self.current_file.name}")
             self._update_image_preview(self)
