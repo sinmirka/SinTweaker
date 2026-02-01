@@ -18,6 +18,10 @@ from core.convert import convert_image
 from core.compress import compress_image
 from core.aspect_ratio import change_image_aspect_ratio
 
+from core.logging.logger import Logger
+
+logger = Logger()
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -83,7 +87,8 @@ class MainWindow(QMainWindow):
         self.update_metadata_view()
         self.show_file_info()
         self._update_image_preview()
-        self._lat_log(f"Chose file: {self.current_file.name}")
+        self._lat_log(f"File chosen: {self.current_file.name}")
+        self.log(f"File chosen. Path: {self.current_file}")
 
     def rename_file(self):
         if not self.current_file:
@@ -298,3 +303,7 @@ class MainWindow(QMainWindow):
         )
 
         self.ui.labelImagePreview.setPixmap(scaled_pixmap)
+
+    def log(self, text):
+        logger.log(text=text)
+        self.ui.textLogs.setText(logger.flush())
