@@ -211,6 +211,10 @@ class MainWindow(QMainWindow):
         
         to_format = str(self.ui.comboFormat.currentText()).lower()
         
+        if to_format == self.current_file.suffix.lower().strip("."):
+            QMessageBox.warning(self, "Error", "Format already matches!")
+            return
+        
         try:
             convert_image(
                 self.current_file,

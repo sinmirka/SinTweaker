@@ -17,7 +17,6 @@ def convert_image(
     src_ext = path.suffix.lower().lstrip(".")
 
     if src_ext == to_format:
-        report.append(f"The original image is already in {to_format}, no conversion needed")
         return report
     
     new_path = path.with_suffix(f".{to_format}")
