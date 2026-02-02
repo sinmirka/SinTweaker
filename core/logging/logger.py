@@ -7,7 +7,9 @@ class Logger:
         
         self.buffer.append(f"[{self.started_at}] Initialized")
     
-    def log(self, text: str):
+    def log(self, text: str | None):
+        if not text:
+            return
         time = datetime.now().strftime("%H:%M:%S")
         line = f"[{time}] {text}"
         self.buffer.append(line)

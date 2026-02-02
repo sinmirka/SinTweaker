@@ -48,6 +48,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.ui.windowTitle())
 
         self.ui.textInfo.setPlainText("No file selected")
+        
         self.log("UI loaded successfully")
 
 
@@ -68,6 +69,7 @@ class MainWindow(QMainWindow):
         self.ui.btnConvert.clicked.connect(self.convert_current_image)
         self.ui.btnCompress.clicked.connect(self.compress_current_image)
         self.ui.btnChangeAspectRatio.clicked.connect(self.change_current_image_aspect_ratio)
+
         self.log("UI signals connected")
 
 
@@ -96,17 +98,15 @@ class MainWindow(QMainWindow):
         if not self.current_file:
             QMessageBox.warning(self, "Error", "No file selected")
             return
-        src_name = self.current_file.name
         
         try:
             report = rename_file(self.current_file)
-            self.log(f"Renamed {src_name} to {self.current_file.name}")
+            self.log(report=report)
         except Exception as e:
             QMessageBox.critical(self, "Rename failed", str(e))
             self.log(f"Rename failed: {str(e)}")
             return
         
-        self.ui.textInfo.setPlainText("\n".join(report))
 
     def update_metadata_view(self):
         if not self.current_file:
@@ -142,7 +142,7 @@ class MainWindow(QMainWindow):
         
         try:
             report = clear_metadata(self.current_file)
-            self.log(f"Cleared metadata for {self.current_file.name}")
+            self.log(f"Cleared metadata for {self.current_file.name}", report=report)
         except Exception as e:
             QMessageBox.critical(self, "Clear failed", str(e))
         
@@ -185,16 +185,13 @@ class MainWindow(QMainWindow):
             max_height = None
 
         try:
-            resize_image(
+            report = resize_image(
                 self.current_file,
                 max_width=max_width,
                 max_height=max_height,
                 dry_run=False,
             )
-            self.log(
-                f"Resized image {self.current_file.name} "
-                f"(max_width={max_width}, max_height={max_height})"
-            )
+            self.log(text=None, report=report)
             self._update_image_preview(self)
         
         except Exception as e:
@@ -213,12 +210,12 @@ class MainWindow(QMainWindow):
             return
         
         try:
-            convert_image(
+            report = convert_image(
                 self.current_file,
                 to_format=to_format,
                 dry_run=False,
             )
-            self.log(f"Converted {self.current_file.name} to format {to_format}")
+            self.log(text=None, report=report)
             self._update_image_preview(self)
         
         except Exception as e:
@@ -237,12 +234,12 @@ class MainWindow(QMainWindow):
             return
         
         try:
-            compress_image(
+            report = compress_image(
                 path=self.current_file,
                 quality=quality,
                 dry_run=False
             )
-            self.log(f"Compressed {self.current_file.name} with quality={quality}")
+            self.log(report)
             self._update_image_preview(self)
 
         except Exception as e:
@@ -265,14 +262,15 @@ class MainWindow(QMainWindow):
             return
         
         try:
-            change_image_aspect_ratio(
+            report = change_image_aspect_ratio(
                 path=self.current_file,
                 ratio_w=ratio_w,
                 ratio_h=ratio_h,
             )
             self.log(
                 f"Changed aspect ratio for {self.current_file.name} "
-                f"to {ratio_w}:{ratio_h}"
+                f"to {ratio_w}:{ratio_h}",
+                report=report
             )
             self._update_image_preview(self)
         except Exception as e:
@@ -319,11 +317,18 @@ class MainWindow(QMainWindow):
 
         self.ui.labelImagePreview.setPixmap(scaled_pixmap)
 
-    def log(self, text):
+    def log(self, text = None, report = None): #im still not sure if this works good
         time = datetime.now().strftime("%H:%M:%S")
-
         lat = self.ui.labelLastAction
-        lat.setText(f"{text} [{time}]")
+
+        if text:
+            lat.setText(f"{text} [{time}]")
         
         logger.log(text=text)
+
+        if report:
+            for line in report:
+                logger.log(text=line)
+            lat.setText(f"{line} [{time}]")
+
         self.ui.textLogs.setText(logger.flush())

@@ -29,6 +29,7 @@ def resize_image(
         max_height: int | None,
         dry_run: bool = False
 ) -> list[str]:
+    
     if not path.exists():
         raise FileNotFoundError(f"File not found: {path}")
     if max_width is None and max_height is None:

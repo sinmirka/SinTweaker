@@ -44,6 +44,6 @@ def change_image_aspect_ratio(
         report.append(f"Successfully changed aspect ratio. New dimensions: {new_width}:{new_height}")
         resized.save(path)
     except Exception as e:
-        report.append(f"Error changinh aspect ratio: {e}")
+        report.append(f"Error changing aspect ratio: {e}")
     
     return report
