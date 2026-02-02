@@ -41,4 +41,4 @@ def clean_image_metadata(
     image = Image.open(path)
     image.save(path)
 
-    return report # you cant normally extract this report into logs because this function is a part of a bigger function which is a part of bigger function so fuck it
+    return report #nevermind whatever I written here before.
