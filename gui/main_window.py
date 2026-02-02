@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import datetime
 
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -89,7 +90,6 @@ class MainWindow(QMainWindow):
         self.update_metadata_view()
         self.show_file_info()
         self._update_image_preview()
-        self._lat_log(f"File chosen: {self.current_file.name}")
         self.log(f"File chosen. Path: {self.current_file}")
 
     def rename_file(self):
@@ -100,7 +100,6 @@ class MainWindow(QMainWindow):
         
         try:
             report = rename_file(self.current_file)
-            self._lat_log(f"Renamed file to {self.current_file.name}")
             self.log(f"Renamed {src_name} to {self.current_file.name}")
         except Exception as e:
             QMessageBox.critical(self, "Rename failed", str(e))
@@ -143,7 +142,6 @@ class MainWindow(QMainWindow):
         
         try:
             report = clear_metadata(self.current_file)
-            self._lat_log(f"Cleared metadata for {self.current_file.name}")
             self.log(f"Cleared metadata for {self.current_file.name}")
         except Exception as e:
             QMessageBox.critical(self, "Clear failed", str(e))
@@ -193,7 +191,6 @@ class MainWindow(QMainWindow):
                 max_height=max_height,
                 dry_run=False,
             )
-            self._lat_log(f"Resized {self.current_file.name}")
             self.log(
                 f"Resized image {self.current_file.name} "
                 f"(max_width={max_width}, max_height={max_height})"
@@ -221,7 +218,6 @@ class MainWindow(QMainWindow):
                 to_format=to_format,
                 dry_run=False,
             )
-            self._lat_log(f"Convert {self.current_file.name} to {to_format}")
             self.log(f"Converted {self.current_file.name} to format {to_format}")
             self._update_image_preview(self)
         
@@ -246,7 +242,6 @@ class MainWindow(QMainWindow):
                 quality=quality,
                 dry_run=False
             )
-            self._lat_log(f"Compressed {self.current_file.name}")
             self.log(f"Compressed {self.current_file.name} with quality={quality}")
             self._update_image_preview(self)
 
@@ -279,7 +274,6 @@ class MainWindow(QMainWindow):
                 f"Changed aspect ratio for {self.current_file.name} "
                 f"to {ratio_w}:{ratio_h}"
             )
-            self._lat_log(f"Changed aspect ratio for {self.current_file.name}")
             self._update_image_preview(self)
         except Exception as e:
             QMessageBox.critical(self, "change_current_image_aspect_ratio() failed", str(e))
@@ -301,10 +295,6 @@ class MainWindow(QMainWindow):
             self.ui.spinAspectH.setVisible(False)
             self.ui.labelAspectColon.setVisible(False)
 
-    def _lat_log(self, text):
-        # lat = last action text
-        lat = self.ui.labelLastAction
-        lat.setText(text)
     
     def _update_image_preview(self, *_):
         if not self.current_file:
@@ -330,5 +320,10 @@ class MainWindow(QMainWindow):
         self.ui.labelImagePreview.setPixmap(scaled_pixmap)
 
     def log(self, text):
+        time = datetime.now().strftime("%H:%M:%S")
+
+        lat = self.ui.labelLastAction
+        lat.setText(f"{text} [{time}]")
+        
         logger.log(text=text)
         self.ui.textLogs.setText(logger.flush())
