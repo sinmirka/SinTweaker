@@ -13,7 +13,6 @@ class Logger:
         time = datetime.now().strftime("%H:%M:%S")
         line = f"[{time}] {text}"
         self.buffer.append(line)
-        self.flush()
     
     def flush(self) -> str:
         return "\n".join(self.buffer)

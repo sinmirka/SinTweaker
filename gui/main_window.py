@@ -317,18 +317,17 @@ class MainWindow(QMainWindow):
 
         self.ui.labelImagePreview.setPixmap(scaled_pixmap)
 
-    def log(self, text = None, report = None): #im still not sure if this works good
+    def log(self, text = None, report = None): #i fixed it boi
         time = datetime.now().strftime("%H:%M:%S")
         lat = self.ui.labelLastAction
 
         if text:
             lat.setText(f"{text} [{time}]")
-        
-        logger.log(text=text)
+            logger.log(text=text)
 
         if report:
             for line in report:
                 logger.log(text=line)
-            lat.setText(f"{line} [{time}]")
+            lat.setText(f"{report[-1]} [{time}]")
 
         self.ui.textLogs.setText(logger.flush())
