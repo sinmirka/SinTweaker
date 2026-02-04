@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
     def _load_ui(self): # Base loading
         loader = QUiLoader()
 
-        ui_path = Path(__file__).parent / "sincleanerV2.ui" #ui file
+        ui_path = Path(__file__).parent / "ui_files" / "main_win.ui" #ui file
         ui_file = QFile(str(ui_path))
         ui_file.open(QFile.ReadOnly)
 
