@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
 
         self.setFixedSize(self.size())
     
-    def _load_ui(self): # Base loading
+    def _load_ui(self): # base loading
         loader = QUiLoader()
 
         ui_path = Path(__file__).parent / "ui_files" / "main_win.ui" #ui file
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
 
         # Metadata tab
         self.ui.btnClearMetadata.clicked.connect(self.clear_file_metadata)
-        # self.ui.btnOpenMetadataFull.clicked.connect(self.open_metadata_full) ill make ts work soon cuz it pmo so harddddddd
+        self.ui.btnViewMetadataFull.clicked.connect(self.open_metadata_full)
 
         # Image tab
         self.ui.btnResize.clicked.connect(self.resize_current_image)
@@ -276,9 +276,30 @@ class MainWindow(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "change_current_image_aspect_ratio() failed", str(e))
             return
+    
+    def open_metadata_full(self):
+        if not self._ensure_file(): return
+
+        meta = get_metadata(self.current_file)
+
+        from core.meta.formatter import format_metadata
+        from gui.metadata_window import MetadataWindow
+
+        text = format_metadata(meta=meta) # Meta признана экстремистской организацией на территории РФ*
+
+        win = MetadataWindow(text=text, parent=self)
+
+        win.exec()
         
 
         # UI elements states, updates and other utils
+    
+    def _ensure_file(self):
+        if not self.current_file:
+            QMessageBox.warning(self, "Error", "No file selected, go to File tab")
+            return False
+        return True
+            
 
     def _on_aspect_ratio_changed(self):
         combo = self.ui.comboAspectRatio
