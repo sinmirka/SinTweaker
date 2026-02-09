@@ -4,20 +4,20 @@ from datetime import datetime
 from PySide6.QtWidgets import (
     QMainWindow,
     QFileDialog,
-    QMessageBox,
+    QMessageBox
 )
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
-from core.rename import rename_file
+from core.file.rename import rename_file
 from core.meta.meta_handler import get_metadata, clear_metadata
-from core.info import get_file_info
-from core.resize import resize_image
-from core.convert import convert_image
-from core.compress import compress_image
-from core.aspect_ratio import change_image_aspect_ratio
+from core.file.info import get_file_info
+from core.image.resize import resize_image
+from core.image.convert import convert_image
+from core.image.compress import compress_image
+from core.image.aspect_ratio import change_image_aspect_ratio
 
 from core.logging.logger import Logger
 

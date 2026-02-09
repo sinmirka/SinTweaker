@@ -36,7 +36,7 @@ class MetadataWindow(): # god help this code work
         metadata = self.dialog.textMetadata
         if metadata.toPlainText() == "No metadata found.":
             return
-        QApplication.clipboard().setText(f"{self.dialog.textMetadata.toPlainText()}")
+        QApplication.clipboard().setText(f"{self.dialog.textMetadata.toPlainText()}") #i found this fucking method on stackoverflow 16 YEARS old question
 
     def _export_metadata(self): #TODO: implement these 3 features
         pass
