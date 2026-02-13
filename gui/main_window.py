@@ -287,7 +287,7 @@ class MainWindow(QMainWindow):
 
         text = format_metadata(meta=meta) # Meta признана экстремистской организацией на территории РФ*
 
-        win = MetadataWindow(text=text, parent=self)
+        win = MetadataWindow(text=text, parent=self, current_file=self.current_file)
 
         win.exec()
         

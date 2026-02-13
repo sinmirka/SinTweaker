@@ -4,8 +4,8 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from PySide6.QtWidgets import QApplication, QMessageBox
 
-class MetadataWindow(): # god help this code work
-    def __init__(self, text: str, parent=None):
+class MetadataWindow():
+    def __init__(self, text: str, parent=None, current_file = Path):
         loader = QUiLoader()
 
         ui_path = Path(__file__).parent / "ui_files" / "metadata_win.ui"
@@ -14,6 +14,8 @@ class MetadataWindow(): # god help this code work
 
         self.dialog = loader.load(ui_file, parent)
         ui_file.close()
+
+        self.current_file = current_file
 
         if self.dialog is None:
             raise RuntimeError("Failed to load metadata_win.ui")
@@ -36,15 +38,22 @@ class MetadataWindow(): # god help this code work
         metadata = self.dialog.textMetadata
         if metadata.toPlainText() == "No metadata found.":
             return
-        QApplication.clipboard().setText(f"{self.dialog.textMetadata.toPlainText()}") #i found this fucking method on stackoverflow 16 YEARS old question
+        QApplication.clipboard().setText(f"{self.dialog.textMetadata.toPlainText()}") #i found this fucking method on stack overflow 16 YEARS old question
 
-    def _export_metadata(self): #TODO: implement these 3 features
+    def _export_metadata(self): #TODO: implement these 2 features
         pass
 
     def _selective_clean(self):
         pass
 
-    def _refresh_metadata(self):
+    def _refresh_metadata(self): #does this even work?
+        from core.meta.formatter import format_metadata
+        from core.meta.meta_handler import get_metadata
+
+        meta = get_metadata(self.current_file)
+        text = format_metadata(meta=meta)
+
+        self.dialog.textMetadata.setText(text)
         pass
 
     def exec(self):
