@@ -4,8 +4,10 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from PySide6.QtWidgets import QApplication, QMessageBox
 
+from core.meta.export import export_data
+
 class MetadataWindow():
-    def __init__(self, text: str, parent=None, current_file = Path):
+    def __init__(self, text: str, current_file: Path, parent=None):
         loader = QUiLoader()
 
         ui_path = Path(__file__).parent / "ui_files" / "metadata_win.ui"
@@ -37,11 +39,17 @@ class MetadataWindow():
     def _copy_to_clipboard(self):
         metadata = self.dialog.textMetadata
         if metadata.toPlainText() == "No metadata found.":
+            QMessageBox.warning(self.dialog, "Error", "No metadata to copy!")
             return
         QApplication.clipboard().setText(f"{self.dialog.textMetadata.toPlainText()}") #i found this fucking method on stack overflow 16 YEARS old question
 
     def _export_metadata(self): #TODO: implement these 2 features
-        pass
+        metadata = self.dialog.textMetadata.toPlainText()
+        if metadata == "No metadata found.":
+            QMessageBox.warning(self.dialog, "Error", "No metadata to export!")
+            return
+        name = self.current_file.stem
+        export_data(name, metadata)
 
     def _selective_clean(self):
         pass
@@ -53,8 +61,7 @@ class MetadataWindow():
         meta = get_metadata(self.current_file)
         text = format_metadata(meta=meta)
 
-        self.dialog.textMetadata.setText(text)
-        pass
+        self.dialog.textMetadata.setPlainText(text) #it did work tho
 
     def exec(self):
         self.dialog.exec()
