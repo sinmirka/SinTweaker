@@ -1,6 +1,7 @@
 photo.jpg
 metatest.jpg
-PROJECT_TREE
+PROJECT_TREE.txt
+export/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
