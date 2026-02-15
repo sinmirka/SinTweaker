@@ -29,11 +29,8 @@ class MetadataWindow():
     def _connect_signals(self):
         self.dialog.btnClose.clicked.connect(self.dialog.close)
         self.dialog.btnCopy.clicked.connect(self._copy_to_clipboard)
-
-        # these are not working for now 04.02.2026
-        # logic will be connected soon 
         self.dialog.btnExport.clicked.connect(self._export_metadata)
-        self.dialog.btnSelectiveClean.clicked.connect(self._selective_clean)
+        self.dialog.btnSelectiveClean.clicked.connect(self._selective_clean) # I promise i will do it...
         self.dialog.btnRefresh.clicked.connect(self._refresh_metadata)
 
     def _copy_to_clipboard(self):
@@ -43,7 +40,7 @@ class MetadataWindow():
             return
         QApplication.clipboard().setText(f"{self.dialog.textMetadata.toPlainText()}") #i found this fucking method on stack overflow 16 YEARS old question
 
-    def _export_metadata(self): #TODO: implement these 2 features
+    def _export_metadata(self):
         metadata = self.dialog.textMetadata.toPlainText()
         if metadata == "No metadata found.":
             QMessageBox.warning(self.dialog, "Error", "No metadata to export!")
@@ -51,7 +48,7 @@ class MetadataWindow():
         name = self.current_file.stem
         export_data(name, metadata)
 
-    def _selective_clean(self):
+    def _selective_clean(self): #TODO: make ts
         pass
 
     def _refresh_metadata(self): #does this even work?

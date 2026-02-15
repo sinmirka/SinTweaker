@@ -1,0 +1,33 @@
+├── cli/
+│   ├── main.py
+│   └── __init__.py
+├── core/
+│   ├── file/
+│   │   ├── info.py
+│   │   └── rename.py
+│   ├── image/
+│   │   ├── aspect_ratio.py
+│   │   ├── compress.py
+│   │   ├── convert.py
+│   │   └── resize.py
+│   ├── logging/
+│   │   └── logger.py
+│   ├── meta/
+│   │   ├── export.py
+│   │   ├── formatter.py
+│   │   ├── image.py
+│   │   └── meta_handler.py
+│   └── __init__.py
+├── export/
+├── gui/
+│   ├── main_window.py
+│   ├── metadata_window.py
+│   ├── ui_files/
+│   │   ├── main_win.ui
+│   │   └── metadata_win.ui
+│   └── __init__.py
+├── LICENSE
+├── main.py
+├── PROJECT_TREE
+├── README.md
+└── requirements.txt
