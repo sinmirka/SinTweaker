@@ -9,11 +9,12 @@ EXPORT_PATH = Path(__file__).parent.parent.parent / "export"
 def resolve_name_conflict(path: Path) -> Path:
     stem = path.stem
     suffix = path.suffix
+    parent = path.parent
     counter = 1
 
     while path.exists():
-        path = path.parent / f"{stem}_{counter}{suffix}"
-        counter =+ 1
+        path = parent / f"{stem}_{counter}{suffix}"
+        counter += 1
     
     return path
 

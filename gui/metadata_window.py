@@ -30,7 +30,7 @@ class MetadataWindow():
         self.dialog.btnClose.clicked.connect(self.dialog.close)
         self.dialog.btnCopy.clicked.connect(self._copy_to_clipboard)
         self.dialog.btnExport.clicked.connect(self._export_metadata)
-        self.dialog.btnSelectiveClean.clicked.connect(self._selective_clean) # I promise i will do it...
+        self.dialog.btnSelectiveClean.clicked.connect(self._selective_clean) # I promise i will do it... one day i will wake up... and do this...
         self.dialog.btnRefresh.clicked.connect(self._refresh_metadata)
 
     def _copy_to_clipboard(self):
