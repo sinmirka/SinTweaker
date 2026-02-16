@@ -38,16 +38,16 @@ def rename_file(
         return report
     
     target_path = path.with_name(new_name)
-    target_path = resolve_name_conflict(target_path)
+    new_path = resolve_name_conflict(target_path)
 
-    report.append(f"Target name: {target_path}")
+    report.append(f"Target name: {new_path}")
     
     if dry_run:
         report.append(f"Dry-run enabled, no changes were applied")
         return report
     
-    path.rename(target_path)
+    path.rename(new_path)
 
     report.append("Rename applied successfully")
 
-    return report
+    return report, new_path

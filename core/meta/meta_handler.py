@@ -23,7 +23,7 @@ def get_metadata(path: Path) -> dict:
     
     return handler(path)
 
-def clear_metadata(path: Path, *, dry_run: bool = False) -> dict:
+def clear_metadata(path: Path, *, dry_run: bool = False) -> list[str]:
     handler = _METADATA_CLEANERS.get(path.suffix.lower())
     if not handler:
         return {}

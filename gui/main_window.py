@@ -100,7 +100,7 @@ class MainWindow(QMainWindow):
             return
         
         try:
-            report = rename_file(self.current_file)
+            report, new_path = rename_file(self.current_file)
             self.log(report=report)
         except Exception as e:
             QMessageBox.critical(self, "Rename failed", str(e))
