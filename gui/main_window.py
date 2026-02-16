@@ -87,11 +87,7 @@ class MainWindow(QMainWindow):
         if not file_path:
             return
         
-        self.current_file = Path(file_path)
-        self.ui.labelCurrentFile.setText(file_path)
-        self.update_metadata_view()
-        self.show_file_info()
-        self._update_image_preview()
+        self.set_current_file(file_path)
         self.log(f"File chosen. Path: {self.current_file}")
 
     def rename_file(self):
@@ -101,6 +97,7 @@ class MainWindow(QMainWindow):
         
         try:
             report, new_path = rename_file(self.current_file)
+            self.set_current_file(new_path)
             self.log(report=report)
         except Exception as e:
             QMessageBox.critical(self, "Rename failed", str(e))
@@ -192,7 +189,7 @@ class MainWindow(QMainWindow):
                 dry_run=False,
             )
             self.log(text=None, report=report)
-            self._update_image_preview(self)
+            self.update_image_preview()
         
         except Exception as e:
             QMessageBox.critical(self, "resize_current_image() failed", str(e))
@@ -210,13 +207,13 @@ class MainWindow(QMainWindow):
             return
         
         try:
-            report = convert_image(
+            report, new_path = convert_image(
                 self.current_file,
                 to_format=to_format,
                 dry_run=False,
             )
             self.log(text=None, report=report)
-            self._update_image_preview(self)
+            self.set_current_file(new_path)
         
         except Exception as e:
             QMessageBox.critical(self, "convert_current_image() failed", str(e))
@@ -240,7 +237,7 @@ class MainWindow(QMainWindow):
                 dry_run=False
             )
             self.log(report)
-            self._update_image_preview(self)
+            self.update_image_preview()
 
         except Exception as e:
             QMessageBox.critical(self, "compress_current_image() failed", str(e))
@@ -272,7 +269,7 @@ class MainWindow(QMainWindow):
                 f"to {ratio_w}:{ratio_h}",
                 report=report
             )
-            self._update_image_preview(self)
+            self.update_image_preview()
         except Exception as e:
             QMessageBox.critical(self, "change_current_image_aspect_ratio() failed", str(e))
             return
@@ -315,7 +312,7 @@ class MainWindow(QMainWindow):
             self.ui.labelAspectColon.setVisible(False)
 
     
-    def _update_image_preview(self, *_):
+    def update_image_preview(self, *_):
         if not self.current_file:
             self.ui.labelImagePreview.setText("Image only")
             return
@@ -352,3 +349,14 @@ class MainWindow(QMainWindow):
             lat.setText(f"{report[-1]} [{time}]")
 
         self.ui.textLogs.setText(logger.flush())
+    
+    def set_current_file(self, path: Path | None):
+        self.current_file = path
+
+        if not path:
+            self.ui.labelCurrentFile.setText("No file selected")
+            return
+
+        self.update_metadata_view()
+        self.show_file_info()
+        self.update_image_preview()

@@ -33,4 +33,4 @@ def convert_image(
     image.save(new_path)
     report.append("Conversion applied successfully.")
 
-    return report
+    return report, new_path

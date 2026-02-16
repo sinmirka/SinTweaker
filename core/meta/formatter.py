@@ -8,7 +8,7 @@ def format_metadata(meta: dict) -> str:
     # { "0th": {...}, "Exif": {...}, "GPS": {...}, "thumbnail": bytes }
 
     for section, data in meta.items():
-        lines.append(f"[{section}]")
+        lines.append(f"<=====[{section}]=====>")
 
         #thumbnail is a binary data and we should not fully display it
 
