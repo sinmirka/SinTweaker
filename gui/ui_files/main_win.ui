@@ -483,8 +483,21 @@
        <layout class="QVBoxLayout">
         <item>
          <widget class="QCheckBox" name="checkDryRun">
+          <property name="toolTip">
+           <string>In dry-run no changes will be applied</string>
+          </property>
           <property name="text">
            <string>Dry run mode</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkOverwrite">
+          <property name="toolTip">
+           <string>Replace the original file instead of creating a new one</string>
+          </property>
+          <property name="text">
+           <string>Overwrite files</string>
           </property>
          </widget>
         </item>
