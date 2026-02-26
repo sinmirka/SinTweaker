@@ -351,7 +351,7 @@ class MainWindow(QMainWindow):
         self.ui.textLogs.setText(logger.flush())
     
     def set_current_file(self, path: Path | None):
-        self.current_file = path
+        self.current_file = Path(path)
 
         if not path:
             self.ui.labelCurrentFile.setText("No file selected")
