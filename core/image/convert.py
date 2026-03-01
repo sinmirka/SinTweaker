@@ -28,9 +28,11 @@ def convert_image(
     if dry_run:
         report.append(f"Dry-run enabled, no changes were applied")
         return report
-    
-    image = Image.open(path)
-    image.save(new_path)
-    report.append("Conversion applied successfully.")
+    try:
+        image = Image.open(path)
+        image.save(new_path)
+        report.append("Conversion applied successfully.")
+    except Exception as e:
+       report.append(f"Conversion failed: {e}") 
 
     return report, new_path
