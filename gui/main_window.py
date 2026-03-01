@@ -20,6 +20,7 @@ from core.image.compress import compress_image
 from core.image.aspect_ratio import change_image_aspect_ratio
 
 from core.logging.logger import Logger
+from config import AppConfig
 
 logger = Logger()
 
@@ -33,6 +34,15 @@ class MainWindow(QMainWindow):
         self._connect_signals()
 
         self.setFixedSize(self.size())
+
+        self.config = AppConfig( # settings tab thing
+            overwrite=self.ui.checkOverwrite.isChecked(),
+            dry_run=self.ui.checkDryRun.isChecked(),
+        )
+
+        # if adding new settings dont forget to connect them here
+        self.ui.checkOverwrite.stateChanged.connect(self._update_config)
+        self.ui.checkDryRun.stateChanged.connect(self._update_config)
     
     def _load_ui(self): # base loading
         loader = QUiLoader()
@@ -71,6 +81,10 @@ class MainWindow(QMainWindow):
         self.ui.btnChangeAspectRatio.clicked.connect(self.change_current_image_aspect_ratio)
 
         self.log("UI signals connected")
+    
+    def _update_config(self):
+        self.config.overwrite = self.ui.checkOverwrite.isChecked()
+        self.config.dry_run = self.ui.checkDryRun.isChecked()
 
 
     # GUI logic down there
