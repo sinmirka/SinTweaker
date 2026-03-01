@@ -1,11 +1,12 @@
 from pathlib import Path
 from PIL import Image
+from config import AppConfig
 
 def convert_image(
         path: Path,
         *,
         to_format: str,
-        dry_run: bool = False,
+        config: AppConfig,
 ) -> list[str]:
     if not path.exists():
         raise FileNotFoundError(f"File not found: {path}")
@@ -25,7 +26,7 @@ def convert_image(
         f"Convert {path.name} to {new_path.name}"
     )
 
-    if dry_run:
+    if config.dry_run:
         report.append(f"Dry-run enabled, no changes were applied")
         return report
     try:

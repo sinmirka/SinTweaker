@@ -224,7 +224,7 @@ class MainWindow(QMainWindow):
             report, new_path = convert_image(
                 self.current_file,
                 to_format=to_format,
-                dry_run=False,
+                config=self.config,
             )
             self.log(text=None, report=report)
             self.set_current_file(new_path)
