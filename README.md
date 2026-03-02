@@ -1,37 +1,66 @@
-# SinCleaner
+# 🫧 SinCleaner
 
-SinCleaner is a lightweight Python utility with a graphical interface for basic file and image operations.
-The project focuses on simplicity, predictability, and local-only processing.
+### Lightweight desktop utility for image and file operations.
+Built with Python + PySide6.
 
-It is designed as a small but extensible tool rather than a full-featured image editor.
----
-Although this project has reached its first public release, it is still under active development and expected to receive many new features, improvements, and refinements in future versions.
-A command-line interface (CLI) is planned and will be integrated after the graphical interface reaches a stable and feature-complete state.
-## Features
+SinCleaner focuses on simplicity, predictability, and local-only processing.
 
-- File selection via GUI
-- Detailed file information display
-- Filename normalization
-- Image resizing with aspect ratio preservation
-- Image format conversion (PNG, JPG, WEBP)
-- EXIF metadata inspection and removal
-- Shared core logic usable from both GUI and CLI
+## ✨ Features
 
----
+Image resize (aspect ratio preserved)
 
-## Requirements (requirements.txt implemented)
+Format conversion (PNG, JPG, WEBP)
 
-- Python 3.10 or newer
-- Pillow
-- PySide6
-- piexif
+Compression control
 
----
+Aspect ratio modification
 
-## Installation
+EXIF metadata view & cleanup
 
-Clone the repository and navigate into it:
+Metadata export to .txt
+
+Filename normalization
+
+Image preview
+
+Built-in logging system
+
+Dry-run & overwrite support
+
+🧠 Architecture
+
+GUI separated from core logic
+
+Domain-based core structure
+
+Unified function return contracts
+
+Centralized settings system (AppConfig)
+
+## 📦 Requirements
+
+Python 3.10+
+
+Pillow
+
+PySide6
+
+piexif
+
+## Install
 
 ```bash
-git clone https://github.com/<your-username>/SinCleaner.git
-cd SinCleaner
+pip install -r requirements.txt
+```
+
+## Run
+
+```bash
+python main.py
+```
+
+## 🔄 Version
+
+Current version: v2.0.0
+
+Major architectural milestone of the project.
