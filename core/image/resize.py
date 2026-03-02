@@ -1,5 +1,6 @@
 from pathlib import Path
 from PIL import Image
+from config import AppConfig
 import math
 
 def calculate_new_size(
@@ -27,7 +28,7 @@ def resize_image(
         *,
         max_width: int | None,
         max_height: int | None,
-        dry_run: bool = False
+        config: AppConfig,
 ) -> list[str]:
     
     if not path.exists():
@@ -52,7 +53,7 @@ def resize_image(
         report.append("The image size already matches, no further resizing actions are required")
         return report
     
-    if dry_run:
+    if config.dry_run:
         report.append(f"The resizing was successful. New dimensions: {new_width}, {new_height}")
         report.append(f"Dry-run enabled, no changes were applied")
         return report

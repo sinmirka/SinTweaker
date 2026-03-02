@@ -33,6 +33,9 @@ def convert_image(
         image = Image.open(path)
         image.save(new_path)
         report.append("Conversion applied successfully.")
+        if config.overwrite:
+            path.unlink()
+        return report, new_path
     except Exception as e:
        report.append(f"Conversion failed: {e}") 
 

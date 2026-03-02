@@ -1,5 +1,6 @@
 from pathlib import Path
 from PIL import Image
+from config import AppConfig
 import piexif
 
 def get_image_metadata(path: Path) -> dict:
@@ -19,7 +20,7 @@ def get_image_metadata(path: Path) -> dict:
 def clean_image_metadata(
         path: Path,
         *,
-        dry_run: bool = False
+        config: AppConfig
     ) -> list[str]:
     meta = get_image_metadata(path)
 
@@ -34,11 +35,11 @@ def clean_image_metadata(
         else:
             report.append(f"{section}: {len(data)} tags")
 
-    if dry_run:
+    if config.dry_run:
         report.append(f"Dry-run enabled, no changes were applied")
         return report
     
     image = Image.open(path)
     image.save(path)
 
-    return report #nevermind whatever I written here before.
+    return report

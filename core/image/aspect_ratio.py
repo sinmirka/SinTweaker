@@ -1,5 +1,6 @@
 from pathlib import Path
 from PIL import Image
+from config import AppConfig
 
 def define_new_size(
         path: Path,
@@ -30,6 +31,7 @@ def change_image_aspect_ratio(
         path: Path,
         ratio_w: int,
         ratio_h: int,
+        config: AppConfig,
 ) -> list[str]:
     if not path.exists():
         raise ValueError(f"File not found: {path}")
@@ -38,6 +40,11 @@ def change_image_aspect_ratio(
     new_width, new_height = define_new_size(path=path, ratio_w=ratio_w, ratio_h=ratio_h)
 
     report = []
+
+    if config.dry_run:
+        report.append(f"New dimensions: {new_width}:{new_height}")
+        report.append(f"Dry-run enabled, no changes were applied")
+        return report
 
     try:
         resized = image.resize((int(new_width), int(new_height)), Image.LANCZOS)

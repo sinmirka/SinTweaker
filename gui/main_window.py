@@ -200,7 +200,7 @@ class MainWindow(QMainWindow):
                 self.current_file,
                 max_width=max_width,
                 max_height=max_height,
-                dry_run=False,
+                config=self.config
             )
             self.log(text=None, report=report)
             self.update_image_preview()
@@ -248,7 +248,7 @@ class MainWindow(QMainWindow):
             report = compress_image(
                 path=self.current_file,
                 quality=quality,
-                dry_run=False
+                config=self.config
             )
             self.log(report)
             self.update_image_preview()
@@ -277,6 +277,7 @@ class MainWindow(QMainWindow):
                 path=self.current_file,
                 ratio_w=ratio_w,
                 ratio_h=ratio_h,
+                config=self.config
             )
             self.log(
                 f"Changed aspect ratio for {self.current_file.name} "

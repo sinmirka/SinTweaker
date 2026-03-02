@@ -1,5 +1,6 @@
 from pathlib import Path
 from PIL import Image
+from config import AppConfig
 
 SUPPORTED_FORMATS = {".jpg", ".jpeg", ".webp", ".png"}
 
@@ -7,7 +8,7 @@ def compress_image(
         path: Path,
         *,
         quality: int,
-        dry_run: bool = False,
+        config: AppConfig,
 ) -> list[str]:
     if not path.exists():
         raise FileNotFoundError(f"File not found: {path}")
@@ -32,7 +33,7 @@ def compress_image(
         save_kwargs["optimize"] = True
         report.append(f"Compression → level={compress_level}")
 
-    if dry_run:
+    if config.dry_run:
         report.append("Dry-run enabled, no changes were applied")
         return report
     
