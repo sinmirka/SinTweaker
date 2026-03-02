@@ -18,7 +18,7 @@ def convert_image(
     src_ext = path.suffix.lower().lstrip(".")
 
     if src_ext == to_format:
-        return report
+        return report, path
     
     new_path = path.with_suffix(f".{to_format}")
 
@@ -28,7 +28,7 @@ def convert_image(
 
     if config.dry_run:
         report.append(f"Dry-run enabled, no changes were applied")
-        return report
+        return report, path
     try:
         image = Image.open(path)
         image.save(new_path)

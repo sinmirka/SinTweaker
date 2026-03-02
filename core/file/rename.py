@@ -35,7 +35,7 @@ def rename_file(
 
     if new_name == path.name:
         report.append("Filename is already normalized. No actions needed")
-        return report
+        return report, path
     
     target_path = path.with_name(new_name)
     new_path = resolve_name_conflict(target_path)
@@ -44,7 +44,7 @@ def rename_file(
     
     if dry_run:
         report.append(f"Dry-run enabled, no changes were applied")
-        return report
+        return report, path
     
     path.rename(new_path)
 
