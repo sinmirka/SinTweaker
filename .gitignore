@@ -3,6 +3,10 @@ metatest.jpg
 PROJECT_TREE.txt
 export/*
 
+dist/
+build/
+*.spec
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
