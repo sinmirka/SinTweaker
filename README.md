@@ -1,9 +1,9 @@
-# 🫧 SMToolkit
+# 🫧 SinTweaker
 
-### Lightweight desktop toolkit for image and file operations.
+### SinTweaker (formerly SinCleaner) is a lightweight desktop toolkit for image and file operations.
 Built with Python + PySide6.
 
-SMToolkit focuses on simplicity, predictability, and local-only processing.  
+SinTweaker focuses on simplicity, predictability, and local-only processing.  
 It provides a small set of practical tools for working with images and files without unnecessary complexity.
 
 ---
