@@ -1,3 +1,5 @@
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 # 🫧 SinTweaker
 
 ### SinTweaker (formerly SinCleaner) is a lightweight desktop toolkit for image and file operations.
