@@ -4,6 +4,9 @@
 ![PySide6](https://img.shields.io/badge/GUI-PySide6-green)
 ![Pillow](https://img.shields.io/badge/Image-Pillow-orange)
 ![piexif](https://img.shields.io/badge/EXIF-piexif-blue)
+![Architecture](https://img.shields.io/badge/architecture-layered-blueviolet)
+![CLI+GUI](https://img.shields.io/badge/interface-CLI%20%2B%20GUI-informational)
+![Local-only](https://img.shields.io/badge/data-local--only-success)
 
 # 🫧 SinTweaker
 
