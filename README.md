@@ -1,4 +1,9 @@
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
+![PySide6](https://img.shields.io/badge/GUI-PySide6-green)
+![Pillow](https://img.shields.io/badge/Image-Pillow-orange)
+![piexif](https://img.shields.io/badge/EXIF-piexif-blue)
 
 # 🫧 SinTweaker
 
